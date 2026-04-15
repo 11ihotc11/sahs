@@ -38,6 +38,7 @@ info "Starting full installation..."
 chmod +x "$SCRIPTS_DIR"/*.sh 2>/dev/null || true
 
 run_script "$SCRIPTS_DIR/isvm.sh"
+run_script "$SCRIPTS_DIR/ufw_setup.sh"
 run_script "$SCRIPTS_DIR/aur_helper.sh"
 run_script "$SCRIPTS_DIR/pkg.sh"
 run_script "$SCRIPTS_DIR/audio.sh"
