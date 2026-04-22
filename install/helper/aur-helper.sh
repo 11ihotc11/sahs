@@ -14,7 +14,7 @@ if [ "$(id -u)" -eq 0 ] && [ "$(systemd-detect-virt 2>/dev/null)" = "chroot" ]; 
     exit 0
 fi
 
-run_task "Installing dependencies" sudo pacman -S --noconfirm --needed git base-devel go
+run_task_with_retry "Installing dependencies" sudo pacman -S --noconfirm --needed git base-devel go
 if command -v yay &>/dev/null; then
     warn "yay already installed"
     exit 0
@@ -28,7 +28,7 @@ fi
 tmp_dir=$(mktemp -d)
 (
     cd "$tmp_dir"
-    run_task "Cloning yay repository" git clone https://aur.archlinux.org/yay.git
+    run_task_with_retry "Cloning yay repository" git clone https://aur.archlinux.org/yay.git
     cd yay
     run_task "Building and installing yay" makepkg -si --noconfirm
 )

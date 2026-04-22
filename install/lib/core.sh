@@ -46,6 +46,29 @@ run_task() {
     fi
 }
 
+# Task runner with retry capability
+run_task_with_retry() {
+    local msg="$1"
+    local max_retries="${RETRY_COUNT:-3}"
+    local delay="${RETRY_DELAY:-2}"
+    shift
+    
+    local count=0
+    while true; do
+        if run_task "$msg (Attempt $((count + 1))/$max_retries)" "$@"; then
+            return 0
+        fi
+        
+        count=$((count + 1))
+        if [ $count -ge "$max_retries" ]; then
+            return 1
+        fi
+        
+        warn "Task failed. Retrying in $delay seconds..."
+        sleep "$delay"
+    done
+}
+
 # --- Shared Utility Functions ---
 
 # Function to check internet connectivity

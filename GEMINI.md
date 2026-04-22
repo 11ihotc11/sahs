@@ -31,6 +31,7 @@ This repository is an improved fork of `sicbite/sahs`, optimized for reliability
 - [x] **Robust Error Handling**:
   - Implemented `install/lib/errors.sh` with a global error trap (`setup_error_trap`).
   - Added `run_task` helper in `core.sh` to provide real-time feedback and log tailing on failure.
+  - Added `run_task_with_retry` for resilient package installation and cloning.
   - Added `SIGINT` trap for graceful user interruption.
 - [x] **Environment Intelligence**:
   - **Chroot Support**: Explicitly allows installation within `chroot` environments.
