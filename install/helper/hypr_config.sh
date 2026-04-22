@@ -1,8 +1,9 @@
 #!/bin/bash
 set -e
 
-source "$(dirname "$0")/color.sh"
-source "$(dirname "$0")/core.sh"
+BASE_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+source "$BASE_DIR/install/lib/color.sh"
+source "$BASE_DIR/install/lib/core.sh"
 
 parse_args "$@"
 
@@ -35,7 +36,7 @@ for line in "${LINES[@]}"; do
     fi
 done
 
-run_cmd cp "$HOME/sahs/config/hypr/bindings.conf" "$HOME/sahs/config/hypr/looknfeel.conf" "$HYPR_DIR"
+run_cmd cp "$BASE_DIR/install/config/hypr/bindings.conf" "$BASE_DIR/install/config/hypr/looknfeel.conf" "$HYPR_DIR"
 
 info "Reloading Hyprland using hyprctl reload"
 run_cmd hyprctl reload

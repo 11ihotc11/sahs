@@ -2,10 +2,13 @@
 set -e
 
 BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
-SCRIPTS_DIR="$BASE_DIR/scripts"
+INSTALL_DIR="$BASE_DIR/install"
+LIB_DIR="$INSTALL_DIR/lib"
+CHECK_DIR="$INSTALL_DIR/check"
+HELPER_DIR="$INSTALL_DIR/helper"
 
-source "$SCRIPTS_DIR/color.sh"
-source "$SCRIPTS_DIR/core.sh"
+source "$LIB_DIR/color.sh"
+source "$LIB_DIR/core.sh"
 
 parse_args "$@"
 
@@ -26,31 +29,31 @@ done
 
 run_script() {
     if [ "$DRY_RUN" = true ]; then
-        echo "[DRY-RUN] bash $1 --dry-run"
+        echo -e "\033[1;30m[DRY-RUN]\033[0m bash $1 --dry-run"
         bash "$1" --dry-run
     else
         bash "$1"
     fi
 }
 
-info "Starting full installation..."
+info "Starting full installation (Modular)..."
 
 if [ "$DRY_RUN" = false ]; then
-    chmod +x "$SCRIPTS_DIR"/*.sh 2>/dev/null || true
+    chmod +x "$INSTALL_DIR"/**/*.sh 2>/dev/null || true
 else
-    echo -e "\033[1;30m[DRY-RUN]\033[0m chmod +x scripts/*.sh"
+    echo -e "\033[1;30m[DRY-RUN]\033[0m chmod +x install/**/*.sh"
 fi
 
-run_script "$SCRIPTS_DIR/isvm.sh"
-run_script "$SCRIPTS_DIR/ufw_setup.sh"
-run_script "$SCRIPTS_DIR/aur_helper.sh"
-run_script "$SCRIPTS_DIR/pkg.sh"
-run_script "$SCRIPTS_DIR/audio.sh"
-run_script "$SCRIPTS_DIR/bluetooth.sh"
-run_script "$SCRIPTS_DIR/brightnessctl.sh"
-run_script "$SCRIPTS_DIR/osd_setup.sh"
-run_script "$SCRIPTS_DIR/hypr_config.sh"
-run_script "$SCRIPTS_DIR/services.sh"
+run_script "$CHECK_DIR/isvm.sh"
+run_script "$HELPER_DIR/ufw_setup.sh"
+run_script "$HELPER_DIR/aur_helper.sh"
+run_script "$HELPER_DIR/pkg.sh"
+run_script "$HELPER_DIR/audio.sh"
+run_script "$HELPER_DIR/bluetooth.sh"
+run_script "$HELPER_DIR/brightnessctl.sh"
+run_script "$HELPER_DIR/osd_setup.sh"
+run_script "$HELPER_DIR/hypr_config.sh"
+run_script "$HELPER_DIR/services.sh"
 
 success "All installation steps completed!"
 info "Reboot!"

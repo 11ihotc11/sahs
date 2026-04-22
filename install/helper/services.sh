@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-source "$(dirname "$0")/color.sh"
-source "$(dirname "$0")/core.sh"
+source "$(dirname "$0")/../lib/color.sh"
+source "$(dirname "$0")/../lib/core.sh"
 
 parse_args "$@"
 
