@@ -13,6 +13,11 @@ if [ "$DRY_RUN" = true ]; then
     info "Skipping mirror optimization (dry-run)"
     exit 0
 fi
-check_dependency "reflector"
+
+if ! command -v reflector &>/dev/null; then
+    warn "reflector not found. Installing..."
+    run_task "Installing reflector" sudo pacman -S --needed --noconfirm reflector
+fi
+
 run_task "Finding the fastest HTTPS mirrors" sudo reflector --latest 20 --protocol https --sort rate --threads 5 --save /etc/pacman.d/mirrorlist
 success "Mirror optimization completed"
