@@ -1,26 +1,81 @@
-# Gemini Project Tracking: sahs
+# Gemini Project Tracking: sahs (Forked)
+
+This repository is an improved fork of `sicbite/sahs`, optimized for reliability, modularity, and transparency during the installation process.
+
+## Project Context
+- **Base Repo**: `sicbite/sahs`
+- **Forked Repo**: `11ihotc11/sahs`
+- **Workflow**: Managed using GitHub CLI (`gh`) and SSH for secure repository operations.
+- **System**: Arch Linux (Installation target).
+
+## Engineering Standards
+- **Naming Convention**: Strict hyphen-case for all files and directories (e.g., `aur-helper.sh`).
+- **File Modes**: All shell scripts must be executable (`chmod +x` and `git update-index --chmod=+x`).
+- **Modularity**: Logic is separated into a clean `install/` structure.
 
 ## Current Progress
-- [x] Fork and clone `sicbite/sahs`.
-- [x] Improve `--dry-run` functionality across all scripts.
-- [x] Implement robust error handling and `run_task` reporting.
-- [x] Implement strict VM detection (with chroot support).
-- [x] Fix hardcoded home paths in `hypr_config.sh`.
-- [x] Reorganize project structure to modular `install/` directory.
-- [x] Externalize package lists to `official.packages` and `aur.packages`.
-- [x] Ensure all scripts are executable (`chmod +x`).
+- [x] **Repository Setup**: Forked and cloned `sicbite/sahs` into the local `Projects` directory.
+- [x] **Modular Restructuring**:
+  - `install/lib/`: Core utilities and logging.
+  - `install/check/`: Pre-installation system validations.
+  - `install/helper/`: Component-specific installation logic.
+  - `install/config/`: Configuration templates.
+- [x] **Package Management**:
+  - Externalized package lists to `official.packages` and `aur.packages`.
+  - Refactored `pkg.sh` to read from these external files.
+- [x] **Robust Error Handling**:
+  - Implemented `install/lib/errors.sh` with a global error trap (`setup_error_trap`).
+  - Added `run_task` helper in `core.sh` to provide real-time feedback and log tailing on failure.
+  - Added `SIGINT` trap for graceful user interruption.
+- [x] **Environment Intelligence**:
+  - **Strict VM Detection**: Aborts installation if a VM is detected (due to Hyprland performance issues), even in dry-run.
+  - **Chroot Support**: Explicitly allows installation within `chroot` environments.
+  - **Root/Chroot Protection**: Skips `makepkg` (AUR) operations when running as root in chroot to prevent inevitable failures.
+- [x] **Network & Optimization**:
+  - Added `isonline.sh` for connectivity validation.
+  - Added `mirror.sh` using `reflector` to find the fastest HTTPS mirrors.
+- [x] **Dry-Run Reliability**:
+  - Improved `--dry-run` (`-d_r`) to ensure zero file-system modifications while still reporting intended changes.
+- [x] **Consistency**:
+  - Renamed all underscore files to hyphen-case.
+  - Fixed hardcoded home directory paths (`/home/m7/` -> `$HOME/`).
 
 ## Roadmap
-1. **Refinement**
-   - [ ] Add more robust error handling to `install.sh`.
-   - [ ] Implement connectivity check before starting installation.
-2. **Branding**
-   - [ ] Add a custom TUI logo.
+1. **Validation**
+   - [ ] Implement a post-install configuration check.
+2. **User Experience**
+   - [ ] Add a visual TUI banner/logo in `install/branding/`.
+   - [ ] Implement a summary report at the end of the installation.
 
-## Project Notes
-- **Goal**: Improved version of `sahs` with better dry-run support and modular structure.
-- **Structure**:
-  - `install/lib/`: Utility scripts.
-  - `install/check/`: System checks.
-  - `install/helper/`: Component setup scripts.
-  - `install/config/`: Configuration files.
+## Project Structure
+```text
+sahs/
+├── GEMINI.md
+├── install.sh
+├── README.md
+└── install/
+    ├── official.packages
+    ├── aur.packages
+    ├── check/
+    │   ├── isonline.sh
+    │   └── isvm.sh
+    ├── helper/
+    │   ├── audio.sh
+    │   ├── aur-helper.sh
+    │   ├── bluetooth.sh
+    │   ├── brightnessctl.sh
+    │   ├── hypr-config.sh
+    │   ├── mirror.sh
+    │   ├── osd-setup.sh
+    │   ├── pkg.sh
+    │   ├── services.sh
+    │   └── ufw-setup.sh
+    ├── lib/
+    │   ├── color.sh
+    │   ├── core.sh
+    │   └── errors.sh
+    └── config/
+        └── hypr/
+            ├── bindings.conf
+            └── looknfeel.conf
+```
