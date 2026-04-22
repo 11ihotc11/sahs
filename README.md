@@ -35,6 +35,8 @@ This installer automates the setup of a minimal and performant Hyprland environm
    ./install.sh --dry-run
    ```
 
+Check [bindings.md](bindings.md) for a list of default keybindings.
+
 ## Project Standards
 - **Naming Convention**: Strict hyphen-case for all files and directories.
 - **Branching Strategy**: 

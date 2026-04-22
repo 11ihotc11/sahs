@@ -45,6 +45,9 @@ This repository is an improved fork of `sicbite/sahs`, optimized for reliability
   - Fixed hardcoded home directory paths (`/home/m7/` -> `$HOME/`).
 - [x] **Installation Logic**:
   - Removed explicit `isvm.sh` check to allow virtualization use while issuing a performance warning.
+  - Implemented custom `sahs-brightness` script installed to `/usr/local/bin`.
+  - Added new keybindings for brightness control (10% and 5% steps).
+  - Documented keybindings in `bindings.md`.
 
 ## Roadmap
 1. **Validation**
