@@ -31,6 +31,7 @@ check_dependency "pacman"
 check_dependency "git"
 
 run_script "$CHECK_DIR/isonline.sh"
+run_script "$HELPER_DIR/mirror.sh"
 run_script "$CHECK_DIR/isvm.sh"
 run_script "$HELPER_DIR/ufw_setup.sh"
 run_script "$HELPER_DIR/aur_helper.sh"
