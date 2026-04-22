@@ -25,12 +25,12 @@ done
 
 info "Starting full installation (Modular)..."
 
-if [ "$DRY_RUN" = false ]; then
-    chmod +x "$INSTALL_DIR"/**/*.sh 2>/dev/null || true
-else
-    echo -e "\033[1;30m[DRY-RUN]\033[0m chmod +x install/**/*.sh"
-fi
+# Initial checks
+check_dependency "sudo"
+check_dependency "pacman"
+check_dependency "git"
 
+run_script "$CHECK_DIR/isonline.sh"
 run_script "$CHECK_DIR/isvm.sh"
 run_script "$HELPER_DIR/ufw_setup.sh"
 run_script "$HELPER_DIR/aur_helper.sh"

@@ -31,11 +31,15 @@ run_task() {
     echo -ne "$(date '+%H:%M:%S') ${BLUE}==>${NC} $msg... "
     
     # Execute command, redirecting output to log
+    local start_line=$(wc -l < "$LOG_FILE" 2>/dev/null || echo 0)
     if "$@" >> "$LOG_FILE" 2>&1; then
         echo -e "${GREEN}DONE${NC}"
         return 0
     else
         echo -e "${RED}FAILED${NC}"
+        echo -e "\n${YELLOW}Relevant log output:${NC}"
+        tail -n 5 "$LOG_FILE" | sed 's/^/  /'
+        echo -e "${DIM}Full log available at: $LOG_FILE${NC}\n"
         return 1
     fi
 }
