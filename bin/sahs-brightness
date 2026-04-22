@@ -1,0 +1,28 @@
+#!/bin/bash
+# sahs-brightness controller
+# Usage: sahs-brightness [up|down|max|get] [5|10]
+
+ACTION=$1
+STEP=${2:-10}
+
+case "$ACTION" in
+    up)
+        brightnessctl set +"$STEP"%
+        ;;
+    down)
+        brightnessctl set "$STEP"%-
+        ;;
+    max)
+        brightnessctl set 100%
+        ;;
+    get)
+        brightnessctl g | awk '{printf "%.0f%%", $1/$(brightnessctl m)*100}'
+        exit 0
+        ;;
+    *)
+        echo "Usage: sahs-brightness [up|down|max|get] [step]"
+        exit 1
+        ;;
+esac
+
+notify-send "Brightness" "$(brightnessctl g | awk '{printf "%.0f%%", $1/$(brightnessctl m)*100}')"
