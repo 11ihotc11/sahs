@@ -10,6 +10,14 @@ parse_args "$@"
 
 info "Installing AUR helper (yay)"
 
+# Check if running as root in a chroot (makepkg will fail)
+if [ "$(id -u)" -eq 0 ] && [ "$(systemd-detect-virt 2>/dev/null)" = "chroot" ]; then
+    warn "Detected root user in chroot environment."
+    warn "makepkg cannot be run as root. Skipping yay installation."
+    warn "Please install an AUR helper (like yay or paru) after booting into your new system."
+    exit 0
+fi
+
 run_task "Installing dependencies" sudo pacman -S --noconfirm --needed git base-devel go
 
 if command -v yay &>/dev/null; then
