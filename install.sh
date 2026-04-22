@@ -24,6 +24,7 @@ for arg in "$@"; do
 done
 
 info "Starting full installation (Modular)..."
+warn "NOTE: Hyprland may have performance issues in virtualized environments."
 
 # Initial checks
 check_dependency "sudo"
@@ -32,7 +33,6 @@ check_dependency "git"
 
 run_script "$CHECK_DIR/isonline.sh"
 run_script "$HELPER_DIR/mirror.sh"
-run_script "$CHECK_DIR/isvm.sh"
 run_script "$HELPER_DIR/ufw-setup.sh"
 run_script "$HELPER_DIR/aur-helper.sh"
 run_script "$HELPER_DIR/pkg.sh"
