@@ -1,6 +1,6 @@
 # sahs
 
-`sahs` is a modular, reliable, and transparent Arch Linux Hyprland installation script. This project is a refined fork of `sicbite/sahs`, optimized for better error handling, modularity, and environment intelligence.
+`sahs` is a modular, reliable, and transparent Arch Linux Hyprland installation script.
 
 ## Overview
 
@@ -43,7 +43,7 @@ Check [bindings.md](bindings.md) for a list of default keybindings.
   - `main`: Stable release branch.
   - `dev`: Active development (default).
 - **Commit Philosophy**: Atomic, focused commits.
-- **Versioning**: Follow semantic versioning. Create signed git tags (e.g., `v0.1.0`) for all releases.
+- **Versioning**: Follow semantic versioning. Create git tags (e.g., `v0.1.0`) for all releases. The first release tag is v0.1.0.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
