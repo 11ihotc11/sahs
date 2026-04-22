@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# sahs-brightness controller
+# Usage: sahs-brightness [up|down|max|get] [step]
+
+ACTION=$1
+STEP_VAL=${2:-10}
+
+# Start with the first possible output, then refine to the most likely given an order heuristic.
+device="$(ls -1 /sys/class/backlight 2>/dev/null | head -n1)"
+for candidate in amdgpu_bl* intel_backlight acpi_video*; do
+  if [[ -e /sys/class/backlight/$candidate ]]; then
+    device="$candidate"
+    break
+  fi
+done
+
+# If no device found, try without -d (let brightnessctl decide)
+if [ -z "$device" ]; then
+    BR_CMD="brightnessctl"
+else
+    BR_CMD="brightnessctl -d $device"
+fi
+
+get_percent() {
+    # Get percentage and handle potential errors
+    local val=$($BR_CMD -m | cut -d',' -f4 | tr -d '%')
+    if [ -z "$val" ]; then
+        # Fallback if -m fails or returns unexpected format
+        $BR_CMD g | awk -v max=$($BR_CMD m) '{printf "%.0f", $1/max*100}'
+    else
+        echo "$val"
+    fi
+}
+
+show_notification() {
+    local percent=$(get_percent)
+    notify-send -h string:x-canonical-private-synchronous:brightness -h int:value:"$percent" "Brightness" "Level: ${percent}%"
+}
+
+interactive() {
+    while true; do
+        clear
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "          sahs-brightness Interactive"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "  Current Brightness: $(get_percent)%"
+        echo ""
+        echo "  1) Increase $STEP_VAL%"
+        echo "  2) Decrease $STEP_VAL%"
+        echo "  3) Set Max (100%)"
+        echo "  4) Get Current"
+        echo "  q) Quit"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        read -p "  Selection: " choice
+        case "$choice" in
+            1) $BR_CMD set +"$STEP_VAL"% >/dev/null && show_notification ;;
+            2) $BR_CMD set "$STEP_VAL"%- >/dev/null && show_notification ;;
+            3) $BR_CMD set 100% >/dev/null && show_notification ;;
+            4) echo "Current: $(get_percent)%" ; sleep 1 ;;
+            q) exit 0 ;;
+            *) echo "Invalid choice"; sleep 1 ;;
+        esac
+    done
+}
+
+if [ -z "$ACTION" ]; then
+    interactive
+    exit 0
+fi
+
+case "$ACTION" in
+    up)
+        $BR_CMD set +"$STEP_VAL"% >/dev/null
+        show_notification
+        ;;
+    down)
+        $BR_CMD set "$STEP_VAL"%- >/dev/null
+        show_notification
+        ;;
+    max)
+        $BR_CMD set 100% >/dev/null
+        show_notification
+        ;;
+    get)
+        echo "$(get_percent)%"
+        ;;
+    *)
+        echo "Usage: sahs-brightness [up|down|max|get] [step]"
+        exit 1
+        ;;
+esac

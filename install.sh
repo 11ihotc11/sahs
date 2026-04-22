@@ -2,18 +2,17 @@
 set -e
 
 BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
-SCRIPTS_DIR="$BASE_DIR/scripts"
+INSTALL_DIR="$BASE_DIR/install"
+LIB_DIR="$INSTALL_DIR/lib"
+CHECK_DIR="$INSTALL_DIR/check"
+HELPER_DIR="$INSTALL_DIR/helper"
 
-source "$SCRIPTS_DIR/color.sh"
-source "$SCRIPTS_DIR/core.sh"
+source "$LIB_DIR/color.sh"
+source "$LIB_DIR/core.sh"
+source "$LIB_DIR/errors.sh"
 
+setup_error_trap
 parse_args "$@"
-
-show_help() {
-    echo "Usage: ./install.sh [options]"
-    echo "  -d_r, --dry-run    Simulate execution"
-    echo "  -h,   --help       Show help"
-}
 
 for arg in "$@"; do
     case "$arg" in
@@ -24,29 +23,27 @@ for arg in "$@"; do
     esac
 done
 
-run_script() {
-    if [ "$DRY_RUN" = true ]; then
-        echo "[DRY-RUN] bash $1 --dry-run"
-        bash "$1" --dry-run
-    else
-        bash "$1"
-    fi
-}
+info "Starting full installation (Modular)..."
+warn "NOTE: Hyprland may have performance issues in virtualized environments."
 
-info "Starting full installation..."
+# Initial checks
+check_dependency "sudo"
+check_dependency "pacman"
+check_dependency "git"
 
-chmod +x "$SCRIPTS_DIR"/*.sh 2>/dev/null || true
-
-run_script "$SCRIPTS_DIR/isvm.sh"
-run_script "$SCRIPTS_DIR/ufw_setup.sh"
-run_script "$SCRIPTS_DIR/aur_helper.sh"
-run_script "$SCRIPTS_DIR/pkg.sh"
-run_script "$SCRIPTS_DIR/audio.sh"
-run_script "$SCRIPTS_DIR/bluetooth.sh"
-run_script "$SCRIPTS_DIR/brightnessctl.sh"
-run_script "$SCRIPTS_DIR/osd_setup.sh"
-run_script "$SCRIPTS_DIR/hypr_config.sh"
-run_script "$SCRIPTS_DIR/services.sh"
+run_script "$CHECK_DIR/isonline.sh"
+run_script "$HELPER_DIR/mirror.sh"
+run_script "$HELPER_DIR/ufw-setup.sh"
+run_script "$HELPER_DIR/aur-helper.sh"
+run_script "$HELPER_DIR/pkg.sh"
+run_script "$HELPER_DIR/theme.sh"
+run_script "$HELPER_DIR/audio.sh"
+run_script "$HELPER_DIR/bluetooth.sh"
+run_script "$HELPER_DIR/brightnessctl.sh"
+run_script "$HELPER_DIR/sahs-brightness.sh"
+run_script "$HELPER_DIR/waybar-config.sh"
+run_script "$HELPER_DIR/hypr-config.sh"
+run_script "$HELPER_DIR/services.sh"
 
 success "All installation steps completed!"
 info "Reboot!"
