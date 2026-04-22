@@ -20,5 +20,5 @@ for line in "${lines[@]}"; do
     fi
 done
 run_task "Copying configuration files" cp "$BASE_DIR/install/config/hypr/bindings.conf" "$BASE_DIR/install/config/hypr/looknfeel.conf" "$hypr_dir"
-run_task "Reloading Hyprland" hyprctl reload
+run_task "Reloading Hyprland" bash -c 'pgrep -x Hyprland >/dev/null && hyprctl reload || true'
 success "hypr-config.sh completed"
