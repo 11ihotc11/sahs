@@ -12,6 +12,10 @@ This repository is an improved fork of `sicbite/sahs`, optimized for reliability
 - **Naming Convention**: Strict hyphen-case for all files and directories (e.g., `aur-helper.sh`).
 - **File Modes**: All shell scripts must be executable (`chmod +x` and `git update-index --chmod=+x`).
 - **Modularity**: Logic is separated into a clean `install/` structure.
+- **Branching Strategy**: 
+  - `main`: Stable code for end-users.
+  - `dev`: Active development (current default).
+- **Commit Philosophy**: Small, atomic commits with frequent pushes.
 
 ## Current Progress
 - [x] **Repository Setup**: Forked and cloned `sicbite/sahs` into the local `Projects` directory.
@@ -28,7 +32,6 @@ This repository is an improved fork of `sicbite/sahs`, optimized for reliability
   - Added `run_task` helper in `core.sh` to provide real-time feedback and log tailing on failure.
   - Added `SIGINT` trap for graceful user interruption.
 - [x] **Environment Intelligence**:
-  - **Strict VM Detection**: Aborts installation if a VM is detected (due to Hyprland performance issues), even in dry-run.
   - **Chroot Support**: Explicitly allows installation within `chroot` environments.
   - **Root/Chroot Protection**: Skips `makepkg` (AUR) operations when running as root in chroot to prevent inevitable failures.
 - [x] **Network & Optimization**:
@@ -39,6 +42,8 @@ This repository is an improved fork of `sicbite/sahs`, optimized for reliability
 - [x] **Consistency**:
   - Renamed all underscore files to hyphen-case.
   - Fixed hardcoded home directory paths (`/home/m7/` -> `$HOME/`).
+- [x] **Installation Logic**:
+  - Removed explicit `isvm.sh` check to allow virtualization use while issuing a performance warning.
 
 ## Roadmap
 1. **Validation**
