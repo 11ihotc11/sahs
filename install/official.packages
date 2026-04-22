@@ -11,7 +11,9 @@ sddm
 qt6-wayland
 qt5-wayland
 xdg-desktop-portal-hyprland
-hyprlauncher
+xdg-desktop-portal-wlr
+wofi
+waybar
 blueman
 pavucontrol
 dunst
