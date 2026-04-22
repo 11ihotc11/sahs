@@ -41,6 +41,7 @@ run_script "$HELPER_DIR/audio.sh"
 run_script "$HELPER_DIR/bluetooth.sh"
 run_script "$HELPER_DIR/brightnessctl.sh"
 run_script "$HELPER_DIR/sahs-brightness.sh"
+run_script "$HELPER_DIR/waybar-config.sh"
 run_script "$HELPER_DIR/hypr-config.sh"
 run_script "$HELPER_DIR/services.sh"
 

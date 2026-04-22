@@ -79,16 +79,22 @@ sahs/
     │   ├── brightnessctl.sh
     │   ├── hypr-config.sh
     │   ├── mirror.sh
-    │   ├── osd-setup.sh
     │   ├── pkg.sh
+    │   ├── sahs-brightness.sh
     │   ├── services.sh
-    │   └── ufw-setup.sh
+    │   ├── theme.sh
+    │   ├── ufw-setup.sh
+    │   └── waybar-config.sh
     ├── lib/
     │   ├── color.sh
     │   ├── core.sh
     │   └── errors.sh
     └── config/
-        └── hypr/
-            ├── bindings.conf
-            └── looknfeel.conf
+        ├── hypr/
+        │   ├── bindings.conf
+        │   ├── hyprland.conf
+        │   └── looknfeel.conf
+        └── waybar/
+            ├── config
+            └── style.css
 ```
