@@ -1,4 +1,6 @@
 #!/bin/bash
+# Core utility script for sahs
+# Sourced by all other scripts to provide basic functionalities.
 
 DRY_RUN=false
 
@@ -10,6 +12,7 @@ parse_args() {
     done
 }
 
+# Function to run commands safely and respect dry-run
 run_cmd() {
     if [ "$DRY_RUN" = true ]; then
         echo -e "\033[1;30m[DRY-RUN]\033[0m $*"
@@ -31,7 +34,6 @@ run_task() {
     echo -ne "$(date '+%H:%M:%S') ${BLUE}==>${NC} $msg... "
     
     # Execute command, redirecting output to log
-    local start_line=$(wc -l < "$LOG_FILE" 2>/dev/null || echo 0)
     if "$@" >> "$LOG_FILE" 2>&1; then
         echo -e "${GREEN}DONE${NC}"
         return 0
@@ -44,15 +46,11 @@ run_task() {
     fi
 }
 
-# Helper for file operations
-write_line() {
-    local line="$1"
-    local file="$2"
-    if [ "$DRY_RUN" = true ]; then
-        echo -e "\033[1;30m[DRY-RUN]\033[0m echo \"$line\" >> \"$file\""
-    else
-        echo "$line" >> "$file"
-    fi
+# --- Shared Utility Functions ---
+
+# Function to check internet connectivity
+is_online() {
+    ping -c 1 -W 2 google.com &>/dev/null || ping -c 1 -W 2 archlinux.org &>/dev/null
 }
 
 show_help() {
@@ -70,6 +68,17 @@ run_script() {
         bash "$script_path" --dry-run
     else
         run_task "Running $script_name" bash "$script_path"
+    fi
+}
+
+# Helper for file operations
+write_line() {
+    local line="$1"
+    local file="$2"
+    if [ "$DRY_RUN" = true ]; then
+        echo -e "\033[1;30m[DRY-RUN]\033[0m echo \"$line\" >> \"$file\""
+    else
+        echo "$line" >> "$file"
     fi
 }
 

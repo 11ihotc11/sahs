@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-
 BASE_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 source "$BASE_DIR/install/lib/color.sh"
 source "$BASE_DIR/install/lib/core.sh"
@@ -10,16 +9,11 @@ setup_error_trap
 parse_args "$@"
 
 info "Installing packages"
-
-# Use absolute paths to package files
-OFFICIAL_LIST="$BASE_DIR/install/official.packages"
-AUR_LIST="$BASE_DIR/install/aur.packages"
-
-mapfile -t official_pkg < <(grep -v '^#' "$OFFICIAL_LIST" | grep -v '^[[:space:]]*$')
-mapfile -t aur_pkg < <(grep -v '^#' "$AUR_LIST" | grep -v '^[[:space:]]*$')
-
+official_list="$BASE_DIR/install/official.packages"
+aur_list="$BASE_DIR/install/aur.packages"
+mapfile -t official_pkg < <(grep -v '^#' "$official_list" | grep -v '^[[:space:]]*$')
+mapfile -t aur_pkg < <(grep -v '^#' "$aur_list" | grep -v '^[[:space:]]*$')
 run_task "Installing official packages" sudo pacman -S --needed --noconfirm "${official_pkg[@]}"
-
 if command -v yay &>/dev/null; then
     run_task "Installing AUR packages" yay -S --needed --noconfirm "${aur_pkg[@]}"
 else
@@ -29,5 +23,4 @@ else
         error_exit "yay not found"
     fi
 fi
-
 success "pkg.sh completed"

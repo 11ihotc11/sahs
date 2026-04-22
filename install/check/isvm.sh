@@ -1,15 +1,14 @@
 #!/bin/bash
 set -e
-
-source "$(dirname "$0")/../lib/color.sh"
-source "$(dirname "$0")/../lib/core.sh"
-source "$(dirname "$0")/../lib/errors.sh"
+BASE_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+source "$BASE_DIR/install/lib/color.sh"
+source "$BASE_DIR/install/lib/core.sh"
+source "$BASE_DIR/install/lib/errors.sh"
 
 setup_error_trap
 parse_args "$@"
 
 info "Checking for virtual environment..."
-
 check_dependency "systemd-detect-virt"
 
 virt_type=$(systemd-detect-virt 2>/dev/null || echo "none")
@@ -26,8 +25,6 @@ if [ "$virt_type" != "none" ]; then
     echo -e "${RED}3D acceleration is often missing or buggy in VMs.${NC}"
     echo -e "${YELLOW}Installation aborted to prevent a broken setup.${NC}"
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
-    
-    # Exit even in dry-run
     exit 1
 fi
 
