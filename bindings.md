@@ -16,15 +16,26 @@ The main modifier key is `SUPER` (the "Windows" key).
 | Kill Active Window | `SUPER + W` |
 | Exit Hyprland | `SUPER + ESCAPE` |
 
-## Brightness Controls
-| Action | Binding |
+## Brightness Controls (Submap)
+To use brightness controls, first press the **Trigger**, then the **Sub-key**. The submap will reset after any other key press.
+
+### 10% Step Adjustments
+**Trigger:** `SUPER + CTRL + F1`
+
+| Action | Sub-key |
 | :--- | :--- |
-| Increase Brightness (10%) | `SUPER + CTRL + B + Up` |
-| Decrease Brightness (10%) | `SUPER + CTRL + B + Down` |
-| Increase Brightness (5%) | `SUPER + CTRL + ALT + B + Up` |
-| Decrease Brightness (5%) | `SUPER + CTRL + ALT + B + Down` |
-| Get Current Brightness | `SUPER + CTRL + B + C` |
-| Set Max Brightness | `SUPER + CTRL + B + M` |
+| Increase Brightness | `Up Arrow` |
+| Decrease Brightness | `Down Arrow` |
+| Get Current Level | `C` |
+| Set Max Brightness | `M` |
+
+### 5% Step Adjustments
+**Trigger:** `SUPER + CTRL + ALT + F1`
+
+| Action | Sub-key |
+| :--- | :--- |
+| Increase Brightness | `Up Arrow` |
+| Decrease Brightness | `Down Arrow` |
 
 ## Window Management
 | Action | Binding |
