@@ -9,7 +9,9 @@ HELPER_DIR="$INSTALL_DIR/helper"
 
 source "$LIB_DIR/color.sh"
 source "$LIB_DIR/core.sh"
+source "$LIB_DIR/errors.sh"
 
+setup_error_trap
 parse_args "$@"
 
 show_help() {
@@ -28,11 +30,14 @@ for arg in "$@"; do
 done
 
 run_script() {
+    local script_path="$1"
+    local script_name=$(basename "$script_path")
+    
     if [ "$DRY_RUN" = true ]; then
-        echo -e "\033[1;30m[DRY-RUN]\033[0m bash $1 --dry-run"
-        bash "$1" --dry-run
+        echo -e "\033[1;30m[DRY-RUN]\033[0m bash $script_path --dry-run"
+        bash "$script_path" --dry-run
     else
-        bash "$1"
+        run_task "Running $script_name" bash "$script_path"
     fi
 }
 

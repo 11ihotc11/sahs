@@ -3,6 +3,7 @@
 ## Current Progress
 - [x] Fork and clone `sicbite/sahs`.
 - [x] Improve `--dry-run` functionality across all scripts.
+- [x] Implement robust error handling and `run_task` reporting.
 - [x] Fix hardcoded home paths in `hypr_config.sh`.
 - [x] Reorganize project structure to modular `install/` directory.
 - [x] Externalize package lists to `official.packages` and `aur.packages`.

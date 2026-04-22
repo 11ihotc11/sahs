@@ -3,21 +3,23 @@ set -e
 
 source "$(dirname "$0")/../lib/color.sh"
 source "$(dirname "$0")/../lib/core.sh"
+source "$(dirname "$0")/../lib/errors.sh"
 
+setup_error_trap
 parse_args "$@"
 
 info "Setting up notify-send + dunst OSD"
 
-run_cmd sudo pacman -S --needed dunst libnotify
+run_task "Installing OSD packages" sudo pacman -S --needed --noconfirm dunst libnotify
 
 HYPR_CONF="$HOME/.config/hypr/hyprland.conf"
-make_dir "$(dirname "$HYPR_CONF")"
+run_task "Creating Hyprland config directory" make_dir "$(dirname "$HYPR_CONF")"
 
 if ! grep -q "exec-once = dunst" "$HYPR_CONF" 2>/dev/null; then
-    write_line "exec-once = dunst" "$HYPR_CONF"
+    run_task "Adding dunst to Hyprland config" write_line "exec-once = dunst" "$HYPR_CONF"
 fi
 
-make_dir "$HOME/.config/dunst"
+run_task "Creating Dunst config directory" make_dir "$HOME/.config/dunst"
 
 DUNST_CONF="[global]
 geometry = \"300x80-10+50\"
@@ -29,6 +31,6 @@ font = Monospace 10
 background = \"#1e1e2e\"
 foreground = \"#ffffff\""
 
-write_file "$DUNST_CONF" "$HOME/.config/dunst/dunstrc"
+run_task "Writing Dunst config" write_file "$DUNST_CONF" "$HOME/.config/dunst/dunstrc"
 
 success "OSD setup completed"

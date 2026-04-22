@@ -18,6 +18,28 @@ run_cmd() {
     fi
 }
 
+# Task runner for structured output and error handling
+run_task() {
+    local msg="$1"
+    shift
+    
+    if [ "$DRY_RUN" = true ]; then
+        echo -e "\033[1;30m[DRY-RUN]\033[0m Task: $msg"
+        return 0
+    fi
+
+    echo -ne "$(date '+%H:%M:%S') ${BLUE}==>${NC} $msg... "
+    
+    # Execute command, redirecting output to log
+    if "$@" >> "$LOG_FILE" 2>&1; then
+        echo -e "${GREEN}DONE${NC}"
+        return 0
+    else
+        echo -e "${RED}FAILED${NC}"
+        return 1
+    fi
+}
+
 # Helper for file operations
 write_line() {
     local line="$1"

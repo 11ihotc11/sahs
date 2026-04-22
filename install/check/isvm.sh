@@ -3,15 +3,14 @@ set -e
 
 source "$(dirname "$0")/../lib/color.sh"
 source "$(dirname "$0")/../lib/core.sh"
+source "$(dirname "$0")/../lib/errors.sh"
 
+setup_error_trap
 parse_args "$@"
 
 info "Running isvm.sh"
 
-if ! command -v systemd-detect-virt &>/dev/null; then
-    error "systemd-detect-virt not found"
-    exit 1
-fi
+check_dependency "systemd-detect-virt"
 
 virt_type=$(systemd-detect-virt 2>/dev/null || echo "none")
 

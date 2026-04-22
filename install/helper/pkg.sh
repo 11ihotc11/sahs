@@ -4,7 +4,9 @@ set -e
 BASE_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 source "$BASE_DIR/install/lib/color.sh"
 source "$BASE_DIR/install/lib/core.sh"
+source "$BASE_DIR/install/lib/errors.sh"
 
+setup_error_trap
 parse_args "$@"
 
 info "Installing packages"
@@ -16,16 +18,15 @@ AUR_LIST="$BASE_DIR/install/aur.packages"
 mapfile -t official_pkg < <(grep -v '^#' "$OFFICIAL_LIST" | grep -v '^[[:space:]]*$')
 mapfile -t aur_pkg < <(grep -v '^#' "$AUR_LIST" | grep -v '^[[:space:]]*$')
 
-run_cmd sudo pacman -S --needed "${official_pkg[@]}"
+run_task "Installing official packages" sudo pacman -S --needed --noconfirm "${official_pkg[@]}"
 
 if command -v yay &>/dev/null; then
-    run_cmd yay -S --needed "${aur_pkg[@]}"
+    run_task "Installing AUR packages" yay -S --needed --noconfirm "${aur_pkg[@]}"
 else
     if [ "$DRY_RUN" = true ]; then
         info "yay not found, skipping AUR packages (dry-run)"
     else
-        error "yay not found"
-        exit 1
+        error_exit "yay not found"
     fi
 fi
 

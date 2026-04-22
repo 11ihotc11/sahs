@@ -3,12 +3,14 @@ set -e
 
 source "$(dirname "$0")/../lib/color.sh"
 source "$(dirname "$0")/../lib/core.sh"
+source "$(dirname "$0")/../lib/errors.sh"
 
+setup_error_trap
 parse_args "$@"
 
 info "Installing AUR helper (yay)"
 
-run_cmd sudo pacman -S --noconfirm --needed git base-devel go
+run_task "Installing dependencies" sudo pacman -S --noconfirm --needed git base-devel go
 
 if command -v yay &>/dev/null; then
     warn "yay already installed"
@@ -23,10 +25,10 @@ fi
 tmp_dir=$(mktemp -d)
 cd "$tmp_dir"
 
-run_cmd git clone https://aur.archlinux.org/yay.git
+run_task "Cloning yay repository" git clone https://aur.archlinux.org/yay.git
 cd yay
 
-run_cmd makepkg -si --noconfirm
+run_task "Building and installing yay" makepkg -si --noconfirm
 
 cd "$BASE_DIR" # Good practice to go back
 rm -rf "$tmp_dir"
