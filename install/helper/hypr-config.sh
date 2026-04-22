@@ -9,7 +9,7 @@ source "$BASE_DIR/install/lib/errors.sh"
 setup_error_trap
 parse_args "$@"
 
-info "Running hypr_config.sh (append-safe mode)"
+info "Running hypr-config.sh (append-safe mode)"
 
 HYPR_DIR="$HOME/.config/hypr"
 HYPR_CONF="$HYPR_DIR/hyprland.conf"
@@ -42,4 +42,4 @@ run_task "Copying configuration files" cp "$BASE_DIR/install/config/hypr/binding
 info "Reloading Hyprland using hyprctl reload"
 run_task "Reloading Hyprland" hyprctl reload
 
-success "hypr_config.sh completed (safe append mode)"
+success "hypr-config.sh completed (safe append mode)"
