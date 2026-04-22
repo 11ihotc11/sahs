@@ -39,6 +39,10 @@ This repository is an improved fork of `sicbite/sahs`, optimized for reliability
 - [x] **Network & Optimization**:
   - Added `isonline.sh` for connectivity validation.
   - Added `mirror.sh` using `reflector` to find the fastest HTTPS mirrors.
+- [x] **Desktop Environment & Theme**:
+  - Implemented `theme.sh` for GTK dark theme preference.
+  - Added `wl-clipboard` and `cliphist` for clipboard management.
+  - Integrated `waybar` and `wofi` with custom configurations.
 - [x] **Dry-Run Reliability**:
   - Improved `--dry-run` (`-d_r`) to ensure zero file-system modifications while still reporting intended changes.
 - [x] **Consistency**:
