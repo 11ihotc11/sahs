@@ -43,7 +43,7 @@ This installer automates the setup of a minimal and performant Hyprland environm
 - **Commit Philosophy**: Atomic, focused commits.
 
 ## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 *This project was created with the assistance of GEMINI CLI.*
