@@ -41,6 +41,7 @@ This installer automates the setup of a minimal and performant Hyprland environm
   - `main`: Stable release branch.
   - `dev`: Active development (default).
 - **Commit Philosophy**: Atomic, focused commits.
+- **Versioning**: Follow semantic versioning. Create signed git tags (e.g., `v0.1.0`) for all releases.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
