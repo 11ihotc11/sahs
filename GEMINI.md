@@ -15,6 +15,7 @@ This repository is an improved fork of `sicbite/sahs`, optimized for reliability
 - **Branching Strategy**: 
   - `main`: Stable code for end-users.
   - `dev`: Active development (current default).
+  - Merging `dev` into `main` requires an explicit user directive.
 - **Commit Philosophy**: Small, atomic commits with frequent pushes.
 
 ## Current Progress
