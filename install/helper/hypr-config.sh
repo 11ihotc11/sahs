@@ -11,8 +11,13 @@ parse_args "$@"
 info "Running hypr-config (append-safe mode)"
 hypr_dir="$HOME/.config/hypr"
 hypr_conf="$hypr_dir/hyprland.conf"
+
 run_task "Creating Hyprland config directory" make_dir "$hypr_dir"
-[ ! -f "$hypr_conf" ] && run_task "Creating hyprland.conf" touch "$hypr_conf"
+
+if [ ! -f "$hypr_conf" ]; then
+    run_task "Installing default hyprland.conf" cp "$BASE_DIR/install/config/hypr/hyprland.conf" "$hypr_conf"
+fi
+
 lines=("source = $HOME/.config/hypr/bindings.conf" "source = $HOME/.config/hypr/looknfeel.conf" "exec-once = dunst")
 for line in "${lines[@]}"; do
     if ! grep -Fxq "$line" "$hypr_conf" 2>/dev/null; then
