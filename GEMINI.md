@@ -63,8 +63,7 @@ sahs/
     ├── official.packages
     ├── aur.packages
     ├── check/
-    │   ├── isonline.sh
-    │   └── isvm.sh
+    │   └── isonline.sh
     ├── helper/
     │   ├── audio.sh
     │   ├── aur-helper.sh

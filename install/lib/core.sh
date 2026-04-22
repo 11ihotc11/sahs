@@ -50,7 +50,7 @@ run_task() {
 
 # Function to check internet connectivity
 is_online() {
-    ping -c 1 -W 2 google.com &>/dev/null || ping -c 1 -W 2 archlinux.org &>/dev/null
+    curl -sfI https://www.google.com >/dev/null 2>&1 || curl -sfI https://archlinux.org >/dev/null 2>&1
 }
 
 show_help() {
