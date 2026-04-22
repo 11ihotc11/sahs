@@ -28,3 +28,5 @@ bluez-utils
 brightnessctl
 ufw
 reflector
+wl-clipboard
+cliphist

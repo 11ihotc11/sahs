@@ -1,22 +1,33 @@
 #!/bin/bash
+
 # sahs-brightness controller
-# Usage: sahs-brightness [up|down|max|get] [5|10]
+# Usage: sahs-brightness [up|down|max|get] [step]
 
 ACTION=$1
-STEP=${2:-10}
+STEP_VAL=${2:-10}
+
+# Start with the first possible output, then refine to the most likely given an order heuristic.
+device="$(ls -1 /sys/class/backlight 2>/dev/null | head -n1)"
+for candidate in amdgpu_bl* intel_backlight acpi_video*; do
+  if [[ -e /sys/class/backlight/$candidate ]]; then
+    device="$candidate"
+    break
+  fi
+done
 
 case "$ACTION" in
     up)
-        brightnessctl set +"$STEP"%
+        brightnessctl -d "$device" set +"$STEP_VAL"% >/dev/null
         ;;
     down)
-        brightnessctl set "$STEP"%-
+        brightnessctl -d "$device" set "$STEP_VAL"%- >/dev/null
         ;;
     max)
-        brightnessctl set 100%
+        brightnessctl -d "$device" set 100% >/dev/null
         ;;
     get)
-        brightnessctl g | awk '{printf "%.0f%%", $1/$(brightnessctl m)*100}'
+        # Output only the percentage for the 'get' action
+        brightnessctl -d "$device" -m | cut -d',' -f4
         exit 0
         ;;
     *)
@@ -25,4 +36,6 @@ case "$ACTION" in
         ;;
 esac
 
-notify-send "Brightness" "$(brightnessctl g | awk '{printf "%.0f%%", $1/$(brightnessctl m)*100}')"
+# Display notification for up, down, and max actions
+current_percent=$(brightnessctl -d "$device" -m | cut -d',' -f4)
+notify-send -h string:x-canonical-private-synchronous:brightness "Brightness" "Level: $current_percent"
