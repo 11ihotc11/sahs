@@ -25,8 +25,12 @@ run_cmd sudo pacman -S --needed "${official_pkg[@]}"
 if command -v yay &>/dev/null; then
     run_cmd yay -S --needed "${aur_pkg[@]}"
 else
-    error "yay not found"
-    exit 1
+    if [ "$DRY_RUN" = true ]; then
+        info "yay not found, skipping AUR packages (dry-run)"
+    else
+        error "yay not found"
+        exit 1
+    fi
 fi
 
 success "pkg.sh completed"

@@ -35,7 +35,11 @@ run_script() {
 
 info "Starting full installation..."
 
-chmod +x "$SCRIPTS_DIR"/*.sh 2>/dev/null || true
+if [ "$DRY_RUN" = false ]; then
+    chmod +x "$SCRIPTS_DIR"/*.sh 2>/dev/null || true
+else
+    echo -e "\033[1;30m[DRY-RUN]\033[0m chmod +x scripts/*.sh"
+fi
 
 run_script "$SCRIPTS_DIR/isvm.sh"
 run_script "$SCRIPTS_DIR/ufw_setup.sh"

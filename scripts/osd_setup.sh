@@ -11,24 +11,24 @@ info "Setting up notify-send + dunst OSD"
 run_cmd sudo pacman -S --needed dunst libnotify
 
 HYPR_CONF="$HOME/.config/hypr/hyprland.conf"
-mkdir -p "$(dirname "$HYPR_CONF")"
+make_dir "$(dirname "$HYPR_CONF")"
 
 if ! grep -q "exec-once = dunst" "$HYPR_CONF" 2>/dev/null; then
-    echo "exec-once = dunst" >> "$HYPR_CONF"
+    write_line "exec-once = dunst" "$HYPR_CONF"
 fi
 
-mkdir -p "$HOME/.config/dunst"
+make_dir "$HOME/.config/dunst"
 
-cat > "$HOME/.config/dunst/dunstrc" << EOF
-[global]
-geometry = "300x80-10+50"
+DUNST_CONF="[global]
+geometry = \"300x80-10+50\"
 frame_width = 2
 padding = 8
 font = Monospace 10
 
 [urgency_normal]
-background = "#1e1e2e"
-foreground = "#ffffff"
-EOF
+background = \"#1e1e2e\"
+foreground = \"#ffffff\""
+
+write_file "$DUNST_CONF" "$HOME/.config/dunst/dunstrc"
 
 success "OSD setup completed"

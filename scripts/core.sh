@@ -12,8 +12,48 @@ parse_args() {
 
 run_cmd() {
     if [ "$DRY_RUN" = true ]; then
-        printf '[DRY-RUN] %q ' "$@"; echo
+        echo -e "\033[1;30m[DRY-RUN]\033[0m $*"
     else
         "$@"
+    fi
+}
+
+# Helper for file operations
+write_line() {
+    local line="$1"
+    local file="$2"
+    if [ "$DRY_RUN" = true ]; then
+        echo -e "\033[1;30m[DRY-RUN]\033[0m echo \"$line\" >> \"$file\""
+    else
+        echo "$line" >> "$file"
+    fi
+}
+
+copy_file() {
+    local src="$1"
+    local dest="$2"
+    if [ "$DRY_RUN" = true ]; then
+        echo -e "\033[1;30m[DRY-RUN]\033[0m cp \"$src\" \"$dest\""
+    else
+        cp "$src" "$dest"
+    fi
+}
+
+make_dir() {
+    local dir="$1"
+    if [ "$DRY_RUN" = true ]; then
+        echo -e "\033[1;30m[DRY-RUN]\033[0m mkdir -p \"$dir\""
+    else
+        mkdir -p "$dir"
+    fi
+}
+
+write_file() {
+    local content="$1"
+    local file="$2"
+    if [ "$DRY_RUN" = true ]; then
+        echo -e "\033[1;30m[DRY-RUN]\033[0m Writing content to $file"
+    else
+        echo -e "$content" > "$file"
     fi
 }
