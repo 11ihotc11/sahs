@@ -14,12 +14,6 @@ source "$LIB_DIR/errors.sh"
 setup_error_trap
 parse_args "$@"
 
-show_help() {
-    echo "Usage: ./install.sh [options]"
-    echo "  -d_r, --dry-run    Simulate execution"
-    echo "  -h,   --help       Show help"
-}
-
 for arg in "$@"; do
     case "$arg" in
         --help|-h)
@@ -28,18 +22,6 @@ for arg in "$@"; do
             ;;
     esac
 done
-
-run_script() {
-    local script_path="$1"
-    local script_name=$(basename "$script_path")
-    
-    if [ "$DRY_RUN" = true ]; then
-        echo -e "\033[1;30m[DRY-RUN]\033[0m bash $script_path --dry-run"
-        bash "$script_path" --dry-run
-    else
-        run_task "Running $script_name" bash "$script_path"
-    fi
-}
 
 info "Starting full installation (Modular)..."
 

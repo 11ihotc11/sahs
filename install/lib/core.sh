@@ -51,6 +51,24 @@ write_line() {
     fi
 }
 
+show_help() {
+    echo "Usage: ./install.sh [options]"
+    echo "  -d_r, --dry-run    Simulate execution"
+    echo "  -h,   --help       Show help"
+}
+
+run_script() {
+    local script_path="$1"
+    local script_name=$(basename "$script_path")
+    
+    if [ "$DRY_RUN" = true ]; then
+        echo -e "\033[1;30m[DRY-RUN]\033[0m bash $script_path --dry-run"
+        bash "$script_path" --dry-run
+    else
+        run_task "Running $script_name" bash "$script_path"
+    fi
+}
+
 copy_file() {
     local src="$1"
     local dest="$2"
