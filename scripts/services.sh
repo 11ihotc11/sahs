@@ -10,7 +10,7 @@ services=(sddm NetworkManager)
 
 for s in "${services[@]}"; do
     run_cmd sudo systemctl enable "$s"
-    run_cmd sudo systemctl start "$s"
+    #run_cmd sudo systemctl start "$s"
 done
 
 success "services configured"

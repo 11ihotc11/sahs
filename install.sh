@@ -49,3 +49,4 @@ run_script "$SCRIPTS_DIR/hypr_config.sh"
 run_script "$SCRIPTS_DIR/services.sh"
 
 success "All installation steps completed!"
+info "Reboot!"
