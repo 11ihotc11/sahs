@@ -11,8 +11,6 @@ parse_args "$@"
 info "Configuring Waybar..."
 conf_dir="$HOME/.config/"
 
-run_task "Creating Waybar config directory" make_dir "$waybar_dir"
-
 # Copy configuration files
 run_task "Copying Waybar config" cp -r "$BASE_DIR/install/config/waybar" "$conf_dir"
 
