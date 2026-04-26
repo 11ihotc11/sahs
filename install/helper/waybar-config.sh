@@ -9,7 +9,7 @@ setup_error_trap
 parse_args "$@"
 
 info "Configuring Waybar..."
-confg_dir="$HOME/.config/"
+conf_dir="$HOME/.config/"
 
 run_task "Creating Waybar config directory" make_dir "$waybar_dir"
 
