@@ -33,3 +33,7 @@ cliphist
 ttf-jetbrains-mono-nerd
 gnome-themes-extra
 noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+woff2-font-awesome
+fontconfig
