@@ -3,7 +3,7 @@ nwg-look
 hyprpolkitagent
 dolphin
 kitty
-vim
+neovim
 btop
 git
 base-devel
@@ -30,3 +30,6 @@ ufw
 reflector
 wl-clipboard
 cliphist
+ttf-jetbrains-mono-nerd
+gnome-themes-extra
+noto-fonts
